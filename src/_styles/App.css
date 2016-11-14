@@ -1,0 +1,78 @@
+/**
+ * LAYOUT
+ */
+.App {
+  min-height: 100vh; 
+}
+
+.App,
+.App .App__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.App__body .App__leftbar {
+  order: -1;
+}
+
+@media (min-width: 768px) {
+  .App .App__body {
+    flex-direction: row;
+    flex: 1;
+  }
+
+  .App__body .App__content {
+    flex: 1;
+  }
+
+  .App__body .App__leftbar {
+    max-width: 12em;
+    flex: 0 0 12em;
+  }
+}
+/**
+ * HEADER
+ */
+.App .App__header {
+  background-color: black;
+  height: 4em;
+  padding: 0 0.5em;
+}
+
+.App__header .brand {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  color: white;
+  text-transform: capitalize;
+  font-size: 1.2em;
+}
+
+.App__header .brand .brand-logo {
+  margin-right: 0.5em;
+  height: 2em;
+}
+/**
+ * FOOTER
+ */
+.App .App__footer {
+  height: 3em;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+}
+
+.App__footer .footer-address {
+  margin: 0 0.2em;
+}
+/**
+ * CONTENT
+ */
+.App__body .App__content {
+  padding: 1em;
+}
