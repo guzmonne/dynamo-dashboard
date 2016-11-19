@@ -17,30 +17,65 @@ const DynamoDB = new AWS.DynamoDB({
 export const CALL_AWS = Symbol('Call AWS')
 // Valid AWS Methods that can be called. They must be passes as the
 // method value inside the action call.
-const validAWSMethods = ['listTables']
-
+const validAWSMethods = ['listTables', 'describeTable']
+/**
+ * Table Schema
+ */
 const tableSchema = new Schema('tables', {
   idAttribute: table => table.TableName
 })
-
+/** Schemas */
 export const Schemas = {
   TABLE: tableSchema,
   TABLE_ARRAY: arrayOf(tableSchema),
 }
-
-const buildListTablesParams = ({limit, exclusiveStartKey}) => {
+/**
+ * Takes in a config object and returns a valid DynamoDB object to 
+ * call DynamoDB listItems() method.
+ * @param  {Object} config  Configuration object.
+ * @param  {Number} config.limit   Number to limit the lenght of the result.
+ * @param  {String|Object} config.exclusiveStartKey  Sets the first key from
+ *                                            which DynamoDB will query
+ *                                            a table.
+ * @return {Object} Valid DynamoDB params object.
+ */
+const buildListTablesParams = ({limit, exclusiveStartKey, tableName}) => {
   const params = {}
   if (limit !== 0 && isNumber(limit))
     params.Limit = limit
   if (isString(exclusiveStartKey))
     params.ExclusiveStartTableName = exclusiveStartKey
+  if (isString(tableName))
+    params.TableName = tableName
   return params
 }
-
+/**
+ * Takes in a config object and returns a valid DynamoDB object to 
+ * call DynamoDB describeTable() method.
+ * @param  {Object} config             Configuration object.
+ * @param  {String} config.tableName   Name of the target function.
+ * @return {Object} Valid DynamoDB params object.
+ */
+const buildDescribeTableParams = ({tableName}) => {
+  console.log(tableName)
+  const params = {}
+  if (isString(tableName))
+    params.TableName = tableName
+  return params
+}
+/**
+ * Call the appropiate build function to construct the params object
+ * needed to call the DynamoDB method identified by the method value.
+ * @param  {String} method  DynamDB method name.
+ * @param  {Any} ...rest    Any other config values.
+ * @return {Object} Valid DynamoDB params object. 
+ */
 const buildParams = ({method, ...rest}) => {
   switch(method){
     case 'listTables':
       return buildListTablesParams(rest)
+    case 'describeTable':
+      return buildDescribeTableParams(rest)
     default:
       return
   }
@@ -65,6 +100,7 @@ export default store => next => action => {
   if (!schema) {
     throw new Error('Specify one of the exported Schemas.')
   }
+  console.log(callAWS)
   const params = buildParams(callAWS)
   if (!params)
     throw new Error('Invalid arguments. Unable to build params.')
@@ -78,16 +114,18 @@ export default store => next => action => {
   DynamoDB[method](params)
   .promise()
   .then(response => {
-    if (method === 'listTables')
-      return next(actionWith({
-        type: successType,
-        response: normalize(response.TableNames.map(TableName => ({TableName})), schema),
-        lastEvaluatedKey: response.LastEvaluatedTableName,
-      }))
-    return next(actionWith({
-      response,
+    const options = {}
+    if (method === 'listTables') {
+      options.lastEvaluatedKey = response.LastEvaluatedTableName
+      response = response.TableNames.map(TableName => ({TableName}))
+    }
+    if (method === 'describeTable') {
+      response = response.Table
+    }
+    next(actionWith(Object.assign({}, {
+      response: normalize(response, schema),
       type: successType,
-    }))
+    }, options)))
   })
   .catch(error => {
     console.error(error)
@@ -96,22 +134,4 @@ export default store => next => action => {
       type: failureType,
     }))
   })
-  /*
-  .on('success', (response) => {
-    if (method === 'listTables')
-      return next(actionWith({
-        response: normalize(response.TableNames.map(TableName => ({TableName})), schema),
-        lastEvaluatedKey: response.LastEvaluatedTableName,
-      }))
-    return next(actionWith({
-      response,
-      type: successType,
-    }))
-  })
-  .on('error', (error) => next(actionWith({
-    error,
-    type: failureType,
-  })))
-  .send()
-  */
 }

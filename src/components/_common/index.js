@@ -1,7 +1,7 @@
 import BreadCrumbs from './BreadCrumbs.js'
-import MediumPanel from './MediumPanel.js'
+import Panel from './Panel.js'
 
 export {
   BreadCrumbs,
-  MediumPanel,
+  Panel,
 }

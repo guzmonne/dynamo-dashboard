@@ -1,6 +1,6 @@
 import React, {PropTypes as T} from 'react'
 import {connect} from 'react-redux'
-import {listTables, selectTable} from '../actions/'
+import {listTables, selectTable, describeTable} from '../actions/'
 import TablesComponent from '../components/Tables/'
 
 class TablesContainer extends React.Component {
@@ -22,10 +22,7 @@ class TablesContainer extends React.Component {
 
   componentDidMount() {
     const TableName = location.hash.slice(1)
-    if (TableName) {
-      this.props.selectTable(TableName)
-      this.setState({isOpen: true})
-    }
+    if (TableName) this.onSelect({TableName}) 
   }
 
   onDismiss = () => this.setState({isOpen: false})
@@ -33,6 +30,7 @@ class TablesContainer extends React.Component {
   onSelect = (table) => {
     this.props.selectTable(table.TableName)
     this.setState({isOpen: true})
+    this.props.describeTable({tableName: table.TableName})
   }
 
   render() {
@@ -62,6 +60,7 @@ const mapStateToProps = (state) => {
 
 const ConnectedTablesContainer = connect(mapStateToProps, {
   listTables,
+  describeTable,
   selectTable
 })(TablesContainer)
 

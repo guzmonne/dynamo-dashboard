@@ -9,3 +9,36 @@
 .Tables__list .Table__item a {
   color: var(--ms-link-blue);
 }
+
+.Table__selected-value {
+  display: flex;
+  flex-direction: row;
+}
+
+.Table__selected-value .key {
+  text-align: right;
+  flex: 1;
+  padding-right: 0.5em;
+}
+
+.key .ms-Label {
+  line-height: 2.0625em;
+}
+
+.Table__selected-value .ms-Label {
+  padding-left: 0;
+}
+
+.Table__selected-value .value {
+  flex: 2.5;
+}
+
+.Table__selected-value ol,
+.Table__selected-value ul {
+  padding: 0;
+  margin: 0;
+}
+
+.Table__selected-value li {
+  list-style: none;
+}

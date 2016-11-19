@@ -1,6 +1,8 @@
 import React, {PropTypes as T} from 'react'
-import {BreadCrumbs, MediumPanel} from '../_common/'
-import {List} from 'office-ui-fabric-react'
+import {BreadCrumbs, Panel} from '../_common/'
+import {List, Label, TextField} from 'office-ui-fabric-react'
+import isObject from 'lodash/isObject'
+import isArray from 'lodash/isArray'
 
 const TableItem = ({item, onSelect}) => 
   <div className="Table__item">
@@ -10,6 +12,22 @@ const TableItem = ({item, onSelect}) =>
 TableItem.propTypes = {
   item: T.object.isRequired,
   onSelect: T.func.isRequired,
+}
+
+const TableSelectedValue = ({value}) => {
+  if (isArray(value)) return (
+    <div>
+    {value.map((v, i) => <TableSelectedValue key={i} value={v} />)}
+    </div>
+  )
+  if (isObject(value)) return (
+    <ul>
+    {Object.keys(value).map(key => 
+      <li key={key}><TextField label={key+':'} value={value[key]} underlined disabled/></li>  
+    )}
+    </ul>
+  )
+  return <TextField value={value.toString()} underlined disabled/>
 }
 
 const Tables = ({items, onSelect, isOpen, onDismiss, selectedItem}) => {
@@ -25,12 +43,21 @@ const Tables = ({items, onSelect, isOpen, onDismiss, selectedItem}) => {
   return (
     <div className="Tables">
     {selectedItem &&
-      <MediumPanel isOpen={isOpen}
+      <Panel isOpen={isOpen}
         header={'#' + selectedItem.TableName}
         onDismiss={dismiss}
       >
-        <pre>{JSON.stringify(selectedItem)}</pre>
-      </MediumPanel>}
+      {Object.keys(selectedItem).map(key => 
+        <div key={key} className="Table__selected-value">
+          <div className="key">
+            <Label>{key}:</Label>
+          </div>
+          <div className="value">
+            <TableSelectedValue value={selectedItem[key]} />
+          </div>
+        </div>
+      )}
+      </Panel>}
       <div className="Tables__Breadcrumbs">
         <BreadCrumbs items={breadcrumbs} />
       </div>

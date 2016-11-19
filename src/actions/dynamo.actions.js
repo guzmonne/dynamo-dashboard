@@ -27,3 +27,28 @@ const callListTables = ({limit, exclusiveStartKey}) => ({
  * @return {ThunkAction}
  */
 export const listTables = (params={}) => dispatch => dispatch(callListTables(params))
+/* DESCRIBE_TABLE ACTIONS */
+export const DESCRIBE_TABLE_REQUEST = 'DESCRIBE_TABLE_REQUEST'
+export const DESCRIBE_TABLE_SUCCESS = 'DESCRIBE_TABLE_SUCCESS'
+export const DESCRIBE_TABLE_ERROR = 'DESCRIBE_TABLE_ERROR'
+/**
+ * Action to call DynamoDB describeTable() method.
+ * Relies on the custom AWS middleware defined in ../middleware/aws.js
+ * @param  {String}  tableName  Name of the table.
+ * @return {ReduxAction} 
+ */
+const callDescribeTable = ({tableName}) => ({
+  [CALL_AWS]: {
+    types: [DESCRIBE_TABLE_REQUEST, DESCRIBE_TABLE_SUCCESS, DESCRIBE_TABLE_ERROR],
+    method: 'describeTable',
+    schema: Schemas.TABLE,
+    tableName,
+  }
+})
+/**
+ * Calls DynamoDB describeTable() method.
+ * Relies on Redux Thunk middleware.
+ * @param  {Object} params DynamoDB listItems() call options.
+ * @return {ThunkAction}
+ */
+export const describeTable = (params={}) => dispatch => dispatch(callDescribeTable(params))
