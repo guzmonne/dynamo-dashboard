@@ -1,5 +1,6 @@
 import merge from 'lodash/merge'
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux'
+import {reducer as form} from 'redux-form'
 import tables from './tables.reducer.js'
 import * as ActionTypes from '../actions'
 /**
@@ -76,6 +77,7 @@ const rootReducer = combineReducers({
   entities,
   errorMessage,
   loadingStatus,
+  form,
   tables,
 })
 

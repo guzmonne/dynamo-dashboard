@@ -10,6 +10,16 @@
   color: var(--ms-link-blue);
 }
 
+.Table__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Table__item .item {
+  padding-left: 0.5em;  
+}
+
 .Table__selected-value {
   display: flex;
   flex-direction: row;
@@ -41,4 +51,15 @@
 
 .Table__selected-value li {
   list-style: none;
+}
+
+form.TableForm label:empty {
+  display: none;
+}
+
+.AttributeDefinition .ms-Button.ms-Button--command .ms-Icon--Cancel,
+.Key .ms-Button.ms-Button--command .ms-Icon--Cancel,
+.LocalSecondaryIndexes__index .ms-Button.ms-Button--command .ms-Icon--Cancel,
+.GlobalSecondaryIndexes__index .ms-Button.ms-Button--command .ms-Icon--Cancel {
+  color: #e81123;
 }

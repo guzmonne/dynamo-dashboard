@@ -20,7 +20,8 @@ const store = configureStore()
 /**
  * Render
  */
+const rootEl = document.getElementById('root')
 ReactDOM.render(
   <App store={store}/>,
-  document.getElementById('root')
+  rootEl
 );

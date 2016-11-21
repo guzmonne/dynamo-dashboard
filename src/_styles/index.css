@@ -16,3 +16,42 @@ body {
 a {
   text-decoration: none;
 }
+
+.unstyled-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mono {
+  font-family: monospace;
+}
+
+.label-l {
+  font-size: 1.2em !important;
+}
+
+.label {
+  font-size: 1em !important;
+}
+
+.label-s {
+  font-size: 0.8em !important;
+}
+
+.padding {
+  margin: 0.5em 0;
+  display: block;
+}
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 3em;
+}
+
+.toggle > div {
+  position: inherit;
+  flex: 1;
+}

@@ -1,28 +1,18 @@
-import React, { PropTypes as T } from 'react';
-import { Provider } from 'react-redux'
-import {Header, Footer, LeftBar, Content} from './components/App/'
-import Tables from './containers/Tables.js'
+import React, { PropTypes as T, Component } from 'react';
+import {Provider} from 'react-redux'
+import Layout from './Layout.js'
 
-class App extends React.Component {
-  static propTypes = {
-    store: T.object.isRequired, 
+class App extends Component {
+  static props = {
+    store: T.object.isRequired,
   }
-  
+
   render() {
-    return (
+    return ( 
       <Provider store={this.props.store}>
-        <div className="App">
-          <Header className="App__header"/>
-          <div className="App__body">
-            <Content className="App__content">
-              <Tables />
-            </Content>
-            <LeftBar className="App__leftbar"/>      
-          </div>
-          <Footer className="App__footer"/>
-        </div>
+        <Layout />
       </Provider>
-    );
+    )    
   }
 }
 

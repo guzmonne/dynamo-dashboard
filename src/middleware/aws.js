@@ -57,7 +57,6 @@ const buildListTablesParams = ({limit, exclusiveStartKey, tableName}) => {
  * @return {Object} Valid DynamoDB params object.
  */
 const buildDescribeTableParams = ({tableName}) => {
-  console.log(tableName)
   const params = {}
   if (isString(tableName))
     params.TableName = tableName
@@ -100,7 +99,6 @@ export default store => next => action => {
   if (!schema) {
     throw new Error('Specify one of the exported Schemas.')
   }
-  console.log(callAWS)
   const params = buildParams(callAWS)
   if (!params)
     throw new Error('Invalid arguments. Unable to build params.')

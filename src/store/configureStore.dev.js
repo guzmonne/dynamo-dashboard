@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import createLogger from 'redux-logger'
+/*import createLogger from 'redux-logger'*/
 import aws from '../middleware/aws.js'
 import rootReducer from '../reducers'
 
@@ -10,7 +10,7 @@ const configureStore = preloadedState => {
     rootReducer,
     preloadedState,
     composeEnhacers(
-      applyMiddleware(thunk, aws, createLogger()),
+      applyMiddleware(thunk, aws/*, createLogger()*/),
     )
   )
 

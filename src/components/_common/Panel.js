@@ -1,5 +1,5 @@
 import React, {PropTypes as T} from 'react'
-import {Panel as PanelUi, PanelType} from 'office-ui-fabric-react'
+import {Panel as PanelUi, PanelType} from 'office-ui-fabric-react/lib/Panel'
 
 const Panel = ({isLightDismiss, header, isOpen, onDismiss, type, children}) =>
   <PanelUi isOpen={isOpen}

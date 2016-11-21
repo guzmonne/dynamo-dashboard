@@ -1,5 +1,5 @@
 import React from 'react'
-import {Nav, INavProps} from 'office-ui-fabric-react'
+import {Nav, INavProps} from 'office-ui-fabric-react/lib/Nav'
 
 const NavBar = ({groups}) =>
   <Nav groups={groups} expandedStateText="expanded" collapsedStateText="collapsed"/>
